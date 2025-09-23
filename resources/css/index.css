@@ -1,0 +1,186 @@
+@font-face {
+  font-family: 'TT Drugs';
+  src: url('/fonts/TTDrugs-Regular.woff2') format('woff2'),
+       url('/fonts/TTDrugs-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'TT Drugs';
+  src: url('/fonts/TTDrugs-Bold.woff2') format('woff2'),
+       url('/fonts/TTDrugs-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+body{
+    background-image: url(/resources/images/background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'TT Drugs', system-ui, sans-serif;
+
+
+}
+
+
+.NextPrayer {
+  background-color: #89a7c2; 
+  color: white;
+  padding: 20px 16px;
+  border-radius: 999px; 
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  font-family: 'TT Drugs', sans-serif;
+  margin-top: 60px;
+  margin-right: 10px;
+}
+
+#UCMSA_logo img{
+    width: 250px;
+}
+
+body{
+    text-align: center;
+}
+
+body #CurrentTime {
+    color: black;
+    font-size: 252px;
+    margin-bottom: 0;
+    font-family: 'TT Drugs', 'Alatsi', sans-serif;
+    letter-spacing: 50px;
+    margin-left: 50px;
+    font-weight: 10;
+    
+}
+
+.date {
+    gap: 35px;
+    font-size: 42.5px;
+    font-family: 'Alatsi', sans-serif;
+    margin-top: -50px;
+    padding-top: 0;
+    font-weight: lighter;
+    
+}
+.date .dotpoint {
+    color: #204768;
+    font-size: 50.5px;
+    padding-bottom: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#PrayerBoard {
+    display: grid;
+    grid-auto-rows: auto;    
+    row-gap: 10px;
+    padding: 20px; 
+    margin-top: 400px;
+    font-size: 3em;
+}
+
+#PrayerBoard .header,
+#PrayerBoard .prayer {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;  /* name | adhan | iqamah */
+  align-items: center;
+  column-gap: 16px;
+  font-family: 'Alatsi', sans-serif;
+}
+
+#PrayerBoard .header {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: .75;
+}
+
+#PrayerBoard .prayer {
+  border-radius: 999px;
+  padding: 28px 14px;
+  transition: background-color .25s, opacity .25s;
+  font-family: 'TT Drugs', sans-serif;
+
+}
+
+#PrayerBoard .prayer.current { background: rgba(255,255,255,.35); font-weight: bold;}
+#PrayerBoard .prayer.past    { opacity: .35; }
+
+#siteFooter {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
+}
+
+.eventCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(270deg, #dff1ff, #7794b6 95%);
+  border-radius: 35px;
+  padding: 5px 20px;
+  width: 90%;
+  max-width: 900px;
+  color: white;
+  margin-right: 400px;
+  position: relative;
+}
+
+.qr img {
+  width: 220px;
+  height: auto;
+}
+
+.eventDetails {
+  flex: 1;
+  padding: 0 70px;
+  text-align: left;
+  font-size: 1.5em;
+  line-height: 10px;
+  color: black;
+}
+
+.eventDetails h3 {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-bottom: 50px;
+  color: white;
+}
+
+.eventDetails strong {
+  display: block;
+  margin: 5px 0;
+  color: black;
+  margin-bottom: 35px;
+  font-weight: 600;
+}
+
+.eventDetails strong,
+.eventDetails p {
+  font-family: 'TT Drugs', sans-serif;
+}
+
+.logo {
+  text-align: right;
+  align-self: flex-end;
+  width: 150px;
+}
+
+.logo img {
+  width: 80px;
+}
+
+.logo small {
+  display: block;
+  font-size: 0.7rem;
+  text-align: right;
+  align-self: flex-end;
+  white-space: nowrap;
+}
