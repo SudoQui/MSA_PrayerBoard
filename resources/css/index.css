@@ -30,8 +30,12 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  font-family: "TT Drugs", system-ui, sans-serif;
+  font-family: "Red Rose", system-ui, sans-serif;
   text-align: center;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
 }
 
 /* Layout wrapper */
@@ -79,7 +83,7 @@ body {
   color: black;
   font-size: clamp(72px, 10vw, 160px);
   margin: clamp(12px, 3vh, 28px) 0 0;
-  font-family: "TT Drugs", "Alatsi", sans-serif;
+  font-family: "Red Rose", system-ui, sans-serif;
   letter-spacing: clamp(6px, 1.2vw, 30px);
   font-weight: 700;
 }
@@ -121,11 +125,25 @@ body {
   font-family: "Alatsi", sans-serif;
 }
 
+#PrayerBoard .adhan,
+#PrayerBoard .Iqamah{
+  font-family: "Red Rose", system-ui, sans-serif;
+  font-weight: 600;
+}
+
+
+#PrayerBoard .header div {
+  font-size: 2.4em;
+  font-weight: 700;
+}
+
 #PrayerBoard .header {
   text-transform: uppercase;
   letter-spacing: 2px;
   opacity: 0.75;
-  font-size: clamp(12px, 1.6vw, 18px);
+  font-size: clamp(25px, 1.6vw, 18px);
+  font-family: "Red Rose", system-ui, sans-serif;
+
 }
 
 #PrayerBoard .prayer {
@@ -349,4 +367,94 @@ body #CurrentTime{
 }
 .logo small{
   font-size: calc(0.7rem * var(--S));
+}
+
+#siteFooter{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  padding: 24px 32px;
+  gap: 24px;
+
+  z-index: 50;
+}
+
+/* Stop the footer from covering your content */
+.page{
+  padding-bottom: 220px; /* adjust if your footer is taller */
+}
+
+/* Event card bottom-left with stable size */
+.eventCard{
+  margin: 0 !important;                 /* kill the margin-right push */
+  width: min(900px, 70vw) !important;   /* stable width, responsive */
+  max-width: none;
+  justify-content: flex-start;          /* content sits naturally */
+}
+
+/* Keep QR and text aligned nicely */
+.qr img{
+  width: 170px;   /* tweak as needed */
+  flex: 0 0 auto;
+}
+
+.eventDetails{
+  flex: 1;
+  min-width: 0;   /* prevents overflow bugs */
+  line-height: 1.2;
+}
+
+/* Make sure lines don’t overlap */
+.eventDetails h3{
+  margin: 0 0 10px 0;
+}
+.eventDetails strong{
+  margin: 0 0 8px 0;
+}
+.eventDetails p{
+  margin: 3px 0;
+}
+
+/* Bottom-right logo stays anchored and not tiny */
+.logo{
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.logo img{
+  width: 220px; /* bigger and stable */
+  height: auto;
+}
+
+/* Mobile: stack neatly */
+@media (max-width: 800px){
+  #siteFooter{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .eventCard{
+    width: min(92vw, 900px) !important;
+  }
+
+  .logo{
+    align-items: center;
+  }
+
+  .logo small{
+    text-align: center;
+  }
+
+  .page{
+    padding-bottom: 320px;
+  }
 }
