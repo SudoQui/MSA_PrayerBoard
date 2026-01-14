@@ -249,3 +249,104 @@ body {
     text-align: center;
   }
 }
+
+/* Global scale knob */
+:root{
+  --S: 1.55;   /* increase this to 1.7 or 1.9 if you want even bigger */
+}
+
+/* Top left logo */
+#UCMSA_logo img{
+  width: calc(250px * var(--S));
+  height: auto;
+}
+
+/* Top right next prayer pill */
+.NextPrayer{
+  font-size: calc(2rem * var(--S));
+  padding: calc(20px * var(--S)) calc(16px * var(--S));
+  margin-top: calc(60px * var(--S));
+  margin-right: calc(10px * var(--S));
+  letter-spacing: calc(2px * var(--S));
+}
+
+/* Big clock */
+body #CurrentTime{
+  font-size: calc(252px * var(--S));
+  letter-spacing: calc(50px * var(--S));
+  margin-left: calc(50px * var(--S));
+}
+
+/* Date line */
+.date{
+  gap: calc(35px * var(--S));
+  font-size: calc(42.5px * var(--S));
+  margin-top: calc(-50px * var(--S));
+}
+.date .dotpoint{
+  font-size: calc(50.5px * var(--S));
+  padding-bottom: calc(10px * var(--S));
+}
+
+/* Prayer board text and spacing */
+#PrayerBoard{
+  font-size: calc(3em * var(--S));
+  padding: calc(20px * var(--S));
+  row-gap: calc(10px * var(--S));
+  margin-top: calc(400px * var(--S));
+}
+
+#PrayerBoard .header,
+#PrayerBoard .prayer{
+  column-gap: calc(16px * var(--S));
+}
+
+#PrayerBoard .prayer{
+  padding: calc(28px * var(--S)) calc(14px * var(--S));
+}
+
+/* Footer area spacing */
+#siteFooter{
+  padding: calc(20px * var(--S));
+  margin-top: calc(150px * var(--S));
+}
+
+/* Event card bigger */
+.eventCard{
+  border-radius: calc(35px * var(--S));
+  padding: calc(5px * var(--S)) calc(20px * var(--S));
+  width: min(calc(900px * var(--S)), 92vw);
+  max-width: none;
+  margin-right: calc(400px * var(--S));
+}
+
+/* QR bigger */
+.qr img{
+  width: calc(220px * var(--S));
+  height: auto;
+}
+
+/* Event text bigger */
+.eventDetails{
+  padding: 0 calc(70px * var(--S));
+  font-size: calc(1.5em * var(--S));
+  line-height: calc(10px * var(--S));
+}
+.eventDetails h3{
+  font-size: calc(1.5rem * var(--S));
+  margin-bottom: calc(50px * var(--S));
+}
+.eventDetails strong{
+  margin-bottom: calc(35px * var(--S));
+}
+
+/* Bottom right logo bigger */
+.logo{
+  width: calc(150px * var(--S));
+}
+.logo img{
+  width: calc(80px * var(--S));
+}
+.logo small{
+  font-size: calc(0.7rem * var(--S));
+}
