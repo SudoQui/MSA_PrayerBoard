@@ -1,15 +1,15 @@
 @font-face {
-  font-family: "TT Drugs";
-  src: url("/fonts/TTDrugs-Regular.woff2") format("woff2"),
-    url("/fonts/TTDrugs-Regular.woff") format("woff");
+  font-family: 'TT Drugs';
+  src: url('/fonts/TTDrugs-Regular.woff2') format('woff2'),
+       url('/fonts/TTDrugs-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "TT Drugs";
-  src: url("/fonts/TTDrugs-Bold.woff2") format("woff2"),
-    url("/fonts/TTDrugs-Bold.woff") format("woff");
+  font-family: 'TT Drugs';
+  src: url('/fonts/TTDrugs-Bold.woff2') format('woff2'),
+       url('/fonts/TTDrugs-Bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -27,203 +27,160 @@ body{
 
 
 .NextPrayer {
-  background: var(--pill);
-  color: rgba(255, 255, 255, 0.95);
-  padding: 14px 22px;
-  border-radius: 999px;
-  font-size: clamp(16px, 2.2vw, 22px);
+  background-color: #89a7c2; 
+  color: white;
+  padding: 20px 16px;
+  border-radius: 999px; 
+  display: inline-block;
+  font-size: 2rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  backdrop-filter: blur(10px);
+  letter-spacing: 2px;
+  font-family: 'TT Drugs', sans-serif;
+  margin-top: 60px;
+  margin-right: 10px;
 }
 
-.center {
-  margin-top: 12px;
-  text-align: center;
+#UCMSA_logo img{
+    width: 250px;
 }
 
-.clock {
-  margin: 14px 0 0;
-  font-family: "TT Drugs", "Alatsi", sans-serif;
-  font-weight: 700;
-  font-size: clamp(72px, 12vw, 150px);
-  letter-spacing: 0.06em;
-  color: #0a0a0a;
+body{
+    text-align: center;
 }
 
-.dateRow {
-  margin-top: 8px;
+body #CurrentTime {
+    color: black;
+    font-size: 252px;
+    margin-bottom: 0;
+    font-family: 'TT Drugs', 'Alatsi', sans-serif;
+    letter-spacing: 50px;
+    margin-left: 50px;
+    font-weight: 10;
+    
+}
+
+.date {
+    gap: 35px;
+    font-size: 42.5px;
+    font-family: 'Alatsi', sans-serif;
+    margin-top: -50px;
+    padding-top: 0;
+    font-weight: lighter;
+    
+}
+.date .dotpoint {
+    color: #204768;
+    font-size: 50.5px;
+    padding-bottom: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#PrayerBoard {
+    display: grid;
+    grid-auto-rows: auto;    
+    row-gap: 10px;
+    padding: 20px; 
+    margin-top: 400px;
+    font-size: 3em;
+}
+
+#PrayerBoard .header,
+#PrayerBoard .prayer {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;  /* name | adhan | iqamah */
+  align-items: center;
+  column-gap: 16px;
+  font-family: 'Alatsi', sans-serif;
+}
+
+#PrayerBoard .header {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: .75;
+}
+
+#PrayerBoard .prayer {
+  border-radius: 999px;
+  padding: 28px 14px;
+  transition: background-color .25s, opacity .25s;
+  font-family: 'TT Drugs', sans-serif;
+
+}
+
+#PrayerBoard .prayer.current { background: rgba(255,255,255,.35); font-weight: bold;}
+#PrayerBoard .prayer.past    { opacity: .35; }
+
+#siteFooter {
+  padding: 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 14px;
-  font-family: "Alatsi", sans-serif;
-  font-size: clamp(16px, 2.4vw, 22px);
-  color: rgba(10, 15, 20, 0.75);
-}
-
-.dateDot {
-  font-size: 18px;
-  color: rgba(10, 15, 20, 0.55);
-  transform: translateY(-1px);
-}
-
-.prayerArea {
-  margin-top: auto;
-  padding-top: 14px;
-}
-
-.prayerBoard {
-  background: var(--panel);
-  border-radius: 22px;
-  padding: 16px 14px;
-  backdrop-filter: blur(10px);
-}
-
-.headerRow,
-.prayer {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
-  align-items: center;
-  column-gap: 10px;
-}
-
-.headerRow {
-  padding: 10px 10px 12px;
-  font-family: "Alatsi", sans-serif;
-  font-size: 14px;
-  letter-spacing: 1px;
-  color: rgba(0, 0, 0, 0.45);
-  text-transform: uppercase;
-}
-
-.colTitle {
-  text-align: center;
-}
-
-.prayer {
-  margin-top: 8px;
-  padding: 12px 12px;
-  border-radius: 999px;
-  transition: opacity 0.25s, background-color 0.25s;
-}
-
-.prayer .name {
-  font-family: "Alatsi", sans-serif;
-  letter-spacing: 1px;
-  font-size: clamp(14px, 2vw, 18px);
-  color: rgba(0, 0, 0, 0.45);
-}
-
-.prayer .timeCell {
-  text-align: center;
-  font-weight: 600;
-  font-size: clamp(14px, 2vw, 18px);
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.prayer.current {
-  background: rgba(255, 255, 255, 0.35);
-}
-
-.prayer.current .name {
-  color: rgba(0, 0, 0, 0.75);
-  font-weight: 700;
-}
-
-.prayer.current .timeCell {
-  color: rgba(0, 0, 0, 0.8);
-  font-weight: 700;
-}
-
-.prayer.past {
-  opacity: 0.4;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 14px;
-  margin-top: 14px;
+  margin-top: 150px;
 }
 
 .eventCard {
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: rgba(220, 235, 247, 0.7);
-  border-radius: 18px;
-  padding: 12px 14px;
-  backdrop-filter: blur(10px);
-  width: min(640px, 74%);
+  justify-content: space-between;
+  background: linear-gradient(270deg, #dff1ff, #7794b6 95%);
+  border-radius: 35px;
+  padding: 5px 20px;
+  width: 90%;
+  max-width: 900px;
+  color: white;
+  margin-right: 400px;
+  position: relative;
 }
 
 .qr img {
-  width: 78px;
-  height: 78px;
-  object-fit: contain;
-  border-radius: 10px;
+  width: 220px;
+  height: auto;
 }
 
 .eventDetails {
-  line-height: 1.15;
+  flex: 1;
+  padding: 0 70px;
+  text-align: left;
+  font-size: 1.5em;
+  line-height: 10px;
+  color: black;
 }
 
-.eventTitle {
-  font-family: "Alatsi", sans-serif;
-  font-size: 12px;
-  letter-spacing: 1px;
+.eventDetails h3 {
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.55);
-  margin-bottom: 6px;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-bottom: 50px;
+  color: white;
 }
 
-.eventName {
-  font-weight: 800;
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.85);
-  margin-bottom: 6px;
+.eventDetails strong {
+  display: block;
+  margin: 5px 0;
+  color: black;
+  margin-bottom: 35px;
+  font-weight: 600;
 }
 
-.eventMeta {
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.65);
+.eventDetails strong,
+.eventDetails p {
+  font-family: 'TT Drugs', sans-serif;
 }
 
-.powered {
+.logo {
   text-align: right;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  min-width: 140px;
+  align-self: flex-end;
+  width: 150px;
 }
 
-.powered img {
-  width: 46px;
-  height: auto;
-  opacity: 0.55;
+.logo img {
+  width: 80px;
 }
 
-.powered small {
-  font-size: 11px;
-  color: rgba(0, 0, 0, 0.45);
+.logo small {
+  display: block;
+  font-size: 0.7rem;
+  text-align: right;
+  align-self: flex-end;
   white-space: nowrap;
-}
-
-/* Optional: nicer scaling for very small screens */
-@media (max-width: 520px) {
-  .brand img {
-    width: 72px;
-    height: 72px;
-  }
-
-  .eventCard {
-    width: 100%;
-  }
-
-  .powered {
-    display: none;
-  }
 }
