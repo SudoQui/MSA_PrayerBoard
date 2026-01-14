@@ -8,8 +8,8 @@
 }
 @font-face {
   font-family: 'TT Drugs';
-  src: url('/fonts/TTDrugs-Bold.woff2') format('woff2'),
-       url('/fonts/TTDrugs-Bold.woff') format('woff');
+  src: url("../fonts/TTDrugs-Regular.woff2") format("woff2"),
+       url("../fonts/TTDrugs-Regular.woff") format("woff");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -17,7 +17,7 @@
 
 
 body{
-    background-image: url(/resources/images/background.png);
+    background-image: url("../images/background.png");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'TT Drugs', system-ui, sans-serif;
