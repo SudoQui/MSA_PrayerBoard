@@ -1,101 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./resources/css/index.css"> 
-    <title>Prayer Board</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prayer Board</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alatsi&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./resources/css/index.css" />
 
-    <!-- in <head> -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alatsi&display=swap" rel="stylesheet">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alatsi&display=swap" rel="stylesheet" />
 </head>
+
 <body>
-    <header style="display: flex; justify-content: space-between; align-items: flex-start;">
+  <div class="page">
+    <header class="topbar">
+      <div id="UCMSA_logo" class="brand">
+        <img src="./resources/images/MSA PNG.png" alt="UCMSA Logo" />
+      </div>
 
-        <div id="UCMSA_logo"><img src="./resources/images/MSA PNG.png"></div>
-
-        <div id="NextPrayer" class="NextPrayer"></di>
-
+      <div id="NextPrayer" class="NextPrayer"></div>
     </header>
 
+    <main class="content">
+      <h1 id="CurrentTime">Loading</h1>
 
-    <body>
-            
-        <h1 id="CurrentTime">Loading</h1>
-        <div class="date" style="display: flex; justify-content: center; align-items: flex-start;">
-            <h4 id="gregDate"></h4>
-            <h2 class="dotpoint">.</h2>
-            <h4 id="islamicDate"></h4>
+      <div class="date">
+        <h4 id="gregDate"></h4>
+        <h2 class="dotpoint">.</h2>
+        <h4 id="islamicDate"></h4>
+      </div>
+
+      <section id="PrayerBoard">
+        <div class="header">
+          <div></div>
+          <div>Adhan</div>
+          <div>Iqamah</div>
         </div>
 
+        <div id="Fajr" class="prayer">
+          <div>Fajr</div>
+          <div id="FajrAdhan" class="adhan"></div>
+          <div id="FajrIqamah" class="Iqamah"></div>
+        </div>
 
-        <section id="PrayerBoard" >
-            
-            <div class="header">
-                <div></div>
-                <div>Adhan</div>
-                <div>Iqamah</div>
-            </div>
+        <div id="Dhuhr" class="prayer">
+          <div>Dhuhr</div>
+          <div id="DhuhrAdhan" class="adhan"></div>
+          <div id="DhuhrIqamah" class="Iqamah"></div>
+        </div>
 
-            <div id="Fajr" class="prayer">
-                <div>Fajr</div>
-                <div id="FajrAdhan" class="adhan"></div>
-                <div id="FajrIqamah" class="Iqamah"></div>
-            </div>
-            
-            <div id="Dhuhr" class="prayer">
-                <div>Dhuhr</div>
-                <div id="DhuhrAdhan" class="adhan"></div>
-                <div id="DhuhrIqamah" class="Iqamah"></div>
-            </div>
-                
-            <div id="Asr" class="prayer">
-                <div>Asr</div>
-                <div id="AsrAdhan" class="adhan"></div>
-                <div id="AsrIqamah" class="Iqamah"></div>
-            </div>
-                
-            <div id="Maghrib" class="prayer">
-                <div>Maghrib</div>
-                <div id="MaghribAdhan" class="adhan"></div>
-                <div id="MaghribIqamah" class="Iqamah"></div>
-            </div>
-                
-            <div id="Isha" class="prayer">
-                <div>Isha</div>
-                <div id="IshaAdhan" class="adhan"></div>
-                <div id="IshaIqamah" class="Iqamah"></div>
-            </div>
+        <div id="Asr" class="prayer">
+          <div>Asr</div>
+          <div id="AsrAdhan" class="adhan"></div>
+          <div id="AsrIqamah" class="Iqamah"></div>
+        </div>
 
-        </section>
+        <div id="Maghrib" class="prayer">
+          <div>Maghrib</div>
+          <div id="MaghribAdhan" class="adhan"></div>
+          <div id="MaghribIqamah" class="Iqamah"></div>
+        </div>
 
-        <footer id="siteFooter">
-            <div class="eventCard">
-                <div class="qr">
-                    <img src="./resources/images/linktr.png" alt="QR Code">
-                </div>
-                <div class="eventDetails">
-                    <h3>WHAT’S GOING ON AT MSA</h3>
-                    <strong>MSA LinkTree</strong>
-                    <p>Instagram</p>
-                    <p>Whatsapp</p>
-                    <p>Get your Membership</p>
-                </div>
-            </div>
-            <div class="logo">
-                    <img src="./resources/images/logo1.png" alt="SudoTech Logo">
-                    <small>Powered by SudoTech</small>
-            </div>
-        </footer>
+        <div id="Isha" class="prayer">
+          <div>Isha</div>
+          <div id="IshaAdhan" class="adhan"></div>
+          <div id="IshaIqamah" class="Iqamah"></div>
+        </div>
+      </section>
+    </main>
 
-        <script src="./resources/JS/app.js"></script>
-    
+    <footer id="siteFooter">
+      <div class="eventCard">
+        <div class="qr">
+          <img src="./resources/images/linktr.png" alt="QR Code" />
+        </div>
+
+        <div class="eventDetails">
+          <h3>WHAT’S GOING ON AT MSA</h3>
+          <strong>MSA LinkTree</strong>
+          <p>Instagram</p>
+          <p>Whatsapp</p>
+          <p>Get your Membership</p>
+        </div>
+      </div>
+
+      <div class="logo">
+        <img src="./resources/images/logo1.png" alt="SudoTech Logo" />
+        <small>Powered by SudoTech</small>
+      </div>
+    </footer>
+  </div>
+
+  <script src="./resources/JS/app.js"></script>
 </body>
 </html>
