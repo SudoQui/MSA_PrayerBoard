@@ -16,261 +16,54 @@
   font-display: swap;
 }
 
-* {
+/* Global scale knob */
+:root{
+  --S: 1.55;
+
+  /* Footer spacing so it never covers content */
+  --footer-pad: 220px;
+  --footer-pad-mobile: 320px;
+}
+
+*{
   box-sizing: border-box;
 }
 
-html, body {
+html, body{
   height: 100%;
 }
 
-body {
+body{
   margin: 0;
   background-image: url("../images/background.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+
   font-family: "Red Rose", system-ui, sans-serif;
   text-align: center;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-
 }
 
 /* Layout wrapper */
-.page {
+.page{
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   padding: clamp(10px, 2vh, 20px);
+
+  /* Stop fixed footer from covering content */
+  padding-bottom: var(--footer-pad);
 }
 
 /* Top bar */
-.topbar {
+.topbar{
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-}
-
-/* Top left logo */
-#UCMSA_logo img {
-  width: clamp(70px, 10vw, 140px);
-  height: auto;
-}
-
-/* Next prayer pill */
-.NextPrayer {
-  background-color: rgba(137, 167, 194, 0.85);
-  color: white;
-  padding: clamp(10px, 1.8vh, 18px) clamp(12px, 2vw, 22px);
-  border-radius: 999px;
-  display: inline-block;
-  font-size: clamp(14px, 2.2vw, 22px);
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin-top: 6px;
-}
-
-/* Main content fills space above footer */
-.content {
-  flex: 1;
-}
-
-/* Big clock */
-#CurrentTime {
-  color: black;
-  font-size: clamp(72px, 10vw, 160px);
-  margin: clamp(12px, 3vh, 28px) 0 0;
-  font-family: "Red Rose", system-ui, sans-serif;
-  letter-spacing: clamp(6px, 1.2vw, 30px);
-  font-weight: 700;
-}
-
-/* Date row */
-.date {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-  font-size: clamp(16px, 2.5vw, 28px);
-  font-family: "Alatsi", sans-serif;
-  margin-top: clamp(-18px, -1.8vh, -8px);
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.date .dotpoint {
-  color: #204768;
-  font-size: clamp(18px, 2.7vw, 34px);
-  margin: 0;
-}
-
-/* Prayer board */
-#PrayerBoard {
-  display: grid;
-  grid-auto-rows: auto;
-  row-gap: 10px;
-  padding: 20px;
-  margin-top: clamp(120px, 18vh, 280px);
-  font-size: clamp(16px, 2.4vw, 32px);
-}
-
-#PrayerBoard .header,
-#PrayerBoard .prayer {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  align-items: center;
-  column-gap: 16px;
-  font-family: "Alatsi", sans-serif;
-}
-
-#PrayerBoard .adhan,
-#PrayerBoard .Iqamah{
-  font-family: "Red Rose", system-ui, sans-serif;
-  font-weight: 600;
-}
-
-
-#PrayerBoard .header div {
-  font-size: 2.4em;
-  font-weight: 700;
-}
-
-#PrayerBoard .header {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  opacity: 0.75;
-  font-size: clamp(25px, 1.6vw, 18px);
-  font-family: "Red Rose", system-ui, sans-serif;
-
-}
-
-#PrayerBoard .prayer {
-  border-radius: 999px;
-  padding: clamp(10px, 2vh, 22px) clamp(10px, 2vw, 18px);
-  transition: background-color 0.25s, opacity 0.25s;
-  font-family: "TT Drugs", sans-serif;
-}
-
-#PrayerBoard .prayer.current {
-  background: rgba(255, 255, 255, 0.35);
-  font-weight: bold;
-}
-
-#PrayerBoard .prayer.past {
-  opacity: 0.35;
-}
-
-/* Footer pinned bottom */
-#siteFooter {
-  margin-top: auto;
-  padding: clamp(10px, 2vh, 20px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: clamp(10px, 2vw, 24px);
-}
-
-/* Event card bottom left */
-.eventCard {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(18px, 3vw, 34px);
-  background: linear-gradient(270deg, rgba(223, 241, 255, 0.9), rgba(119, 148, 182, 0.9) 95%);
-  border-radius: 34px;
-  padding: clamp(18px, 3vh, 36px) clamp(22px, 3.5vw, 48px);
-  width: min(1200px, 92vw);
-  color: white;
-  position: relative;
-}
-
-/* QR scales with screen */
-.qr img {
-  width: clamp(130px, 16vw, 260px);
-  height: auto;
-  border-radius: 12px;
-}
-
-/* Event details */
-.eventDetails {
-  flex: 1;
-  text-align: left;
-  font-size: clamp(18px, 2.4vw, 26px);
-  line-height: 1.25;
-  color: rgba(0, 0, 0, 0.85);
-}
-
-.eventDetails h3 {
-  text-transform: uppercase;
-  font-size: clamp(11px, 1.4vw, 14px);
-  letter-spacing: 1px;
-  opacity: 0.9;
-  margin: 0 0 8px;
-  color: white;
-  
-}
-
-.eventDetails strong {
-  display: block;
-  font-size: clamp(20px, 2.8vw, 30px);
-  margin-bottom: 12px;
-  margin: 0 0 6px;
-  color: rgba(0, 0, 0, 0.9);
-  font-weight: 700;
-}
-
-.eventDetails p {
-  margin: 2px 0;
-  color: rgba(0, 0, 0, 0.75);
-}
-
-/* Bigger logo bottom right */
-.logo {
-  text-align: right;
-  align-self: flex-end;
-  min-width: 160px;
-}
-
-.logo img {
-  width: clamp(180px, 14vw, 320px);
-  height: auto;
-}
-
-.logo small {
-  display: block;
-  font-size: clamp(14px, 1.8vw, 20px);
-  text-align: right;
-  white-space: nowrap;
-  opacity: 0.7;
-  color: rgba(0, 0, 0, 0.55);
-}
-
-/* Mobile stacking */
-@media (max-width: 700px) {
-  #siteFooter {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .eventCard {
-    width: min(92vw, 720px);
-  }
-
-  .logo {
-    text-align: center;
-    align-self: center;
-  }
-
-  .logo small {
-    text-align: center;
-  }
-}
-
-/* Global scale knob */
-:root{
-  --S: 1.55;   /* increase this to 1.7 or 1.9 if you want even bigger */
 }
 
 /* Top left logo */
@@ -279,96 +72,139 @@ body {
   height: auto;
 }
 
-/* Top right next prayer pill */
+/* Next prayer pill */
 .NextPrayer{
+  background-color: rgba(137, 167, 194, 0.85);
+  color: white;
+
+  border-radius: 999px;
+  display: inline-block;
+
+  font-weight: 600;
+  letter-spacing: calc(2px * var(--S));
+
   font-size: calc(2rem * var(--S));
   padding: calc(20px * var(--S)) calc(16px * var(--S));
   margin-top: calc(60px * var(--S));
   margin-right: calc(10px * var(--S));
-  letter-spacing: calc(2px * var(--S));
+}
+
+/* Main content fills space above footer */
+.content{
+  flex: 1;
 }
 
 /* Big clock */
-body #CurrentTime{
+#CurrentTime{
+  color: black;
+  font-family: "Red Rose", system-ui, sans-serif;
+  font-weight: 700;
+
   font-size: calc(252px * var(--S));
   letter-spacing: calc(50px * var(--S));
+  margin: clamp(12px, 3vh, 28px) 0 0;
   margin-left: calc(50px * var(--S));
 }
 
-/* Date line */
+/* Date row */
 .date{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Alatsi", sans-serif;
+  color: rgba(0, 0, 0, 0.7);
+
   gap: calc(35px * var(--S));
   font-size: calc(42.5px * var(--S));
   margin-top: calc(-50px * var(--S));
 }
+
 .date .dotpoint{
+  color: #204768;
+  margin: 0;
   font-size: calc(50.5px * var(--S));
   padding-bottom: calc(10px * var(--S));
 }
 
-/* Prayer board text and spacing */
+/* Prayer board */
 #PrayerBoard{
+  display: grid;
+  grid-auto-rows: auto;
+
   font-size: calc(3em * var(--S));
   padding: calc(20px * var(--S));
   row-gap: calc(10px * var(--S));
   margin-top: calc(400px * var(--S));
+
+  /* Wider middle section (more x-axis spread) */
+  width: min(1200px, 92vw);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #PrayerBoard .header,
 #PrayerBoard .prayer{
-  column-gap: calc(16px * var(--S));
+  display: grid;
+
+  /* More spread across x axis */
+  grid-template-columns: 1.8fr 1fr 1fr;
+  column-gap: calc(90px * var(--S));
+
+  align-items: center;
+  font-family: "Alatsi", sans-serif;
+}
+
+/* Center the Adhan and Iqamah columns */
+#PrayerBoard .header > div:nth-child(2),
+#PrayerBoard .header > div:nth-child(3),
+#PrayerBoard .prayer > div:nth-child(2),
+#PrayerBoard .prayer > div:nth-child(3){
+  text-align: center;
+}
+
+/* Optional: pull the prayer names slightly inward so it still looks balanced */
+#PrayerBoard .prayer > div:first-child{
+  padding-left: calc(20px * var(--S));
+}
+
+#PrayerBoard .adhan,
+#PrayerBoard .Iqamah{
+  font-family: "Red Rose", system-ui, sans-serif;
+  font-weight: 600;
+}
+
+#PrayerBoard .header{
+  text-transform: uppercase;
+  opacity: 0.75;
+
+  font-family: "Red Rose", system-ui, sans-serif;
+  letter-spacing: 2px;
+}
+
+#PrayerBoard .header div{
+  font-size: 2.4em;
+  font-weight: 700;
 }
 
 #PrayerBoard .prayer{
+  border-radius: 999px;
+  font-family: "TT Drugs", sans-serif;
+
   padding: calc(28px * var(--S)) calc(14px * var(--S));
+  transition: background-color 0.25s, opacity 0.25s;
 }
 
-/* Footer area spacing */
-#siteFooter{
-  padding: calc(20px * var(--S));
-  margin-top: calc(150px * var(--S));
+#PrayerBoard .prayer.current{
+  background: rgba(255, 255, 255, 0.35);
+  font-weight: 700;
 }
 
-/* Event card bigger */
-.eventCard{
-  border-radius: calc(35px * var(--S));
-  padding: calc(5px * var(--S)) calc(20px * var(--S));
-  width: min(calc(900px * var(--S)), 92vw);
-  max-width: none;
-  margin-right: calc(400px * var(--S));
+#PrayerBoard .prayer.past{
+  opacity: 0.35;
 }
 
-/* QR bigger */
-.qr img{
-  width: calc(220px * var(--S));
-  height: auto;
-}
-
-/* Event text bigger */
-.eventDetails{
-  padding: 0 calc(70px * var(--S));
-  font-size: calc(1.5em * var(--S));
-  line-height: calc(10px * var(--S));
-}
-.eventDetails h3{
-  font-size: calc(1.5rem * var(--S));
-  margin-bottom: calc(50px * var(--S));
-}
-.eventDetails strong{
-  margin-bottom: calc(35px * var(--S));
-}
-
-/* Bottom right logo bigger */
-.logo{
-  width: calc(150px * var(--S));
-}
-.logo img{
-  width: calc(80px * var(--S));
-}
-.logo small{
-  font-size: calc(0.7rem * var(--S));
-}
-
+/* Footer pinned bottom */
 #siteFooter{
   position: fixed;
   left: 0;
@@ -385,45 +221,74 @@ body #CurrentTime{
   z-index: 50;
 }
 
-/* Stop the footer from covering your content */
-.page{
-  padding-bottom: 220px; /* adjust if your footer is taller */
-}
-
 /* Event card bottom-left with stable size */
 .eventCard{
-  margin: 0 !important;                 /* kill the margin-right push */
-  width: min(900px, 70vw) !important;   /* stable width, responsive */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(18px, 3vw, 34px);
+
+  background: linear-gradient(270deg, rgba(223, 241, 255, 0.9), rgba(119, 148, 182, 0.9) 95%);
+  border-radius: 34px;
+  padding: clamp(18px, 3vh, 36px) clamp(22px, 3.5vw, 48px);
+
+  width: min(900px, 70vw);
   max-width: none;
-  justify-content: flex-start;          /* content sits naturally */
+
+  color: white;
+  position: relative;
+
+  margin: 0;
 }
 
-/* Keep QR and text aligned nicely */
+/* QR fixed, responsive friendly */
 .qr img{
-  width: 170px;   /* tweak as needed */
+  width: 170px;
+  height: auto;
+  border-radius: 12px;
   flex: 0 0 auto;
 }
 
+/* Event details */
 .eventDetails{
   flex: 1;
-  min-width: 0;   /* prevents overflow bugs */
+  min-width: 0;
+
+  text-align: left;
+  font-size: clamp(18px, 2.4vw, 26px);
   line-height: 1.2;
+
+  color: rgba(0, 0, 0, 0.85);
 }
 
-/* Make sure lines don’t overlap */
 .eventDetails h3{
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+
   margin: 0 0 10px 0;
+  color: white;
+
+  font-size: clamp(11px, 1.4vw, 14px);
 }
+
 .eventDetails strong{
+  display: block;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.9);
+
   margin: 0 0 8px 0;
+  font-size: clamp(20px, 2.8vw, 30px);
 }
+
 .eventDetails p{
   margin: 3px 0;
+  color: rgba(0, 0, 0, 0.75);
 }
 
-/* Bottom-right logo stays anchored and not tiny */
+/* Bottom right logo */
 .logo{
-  margin: 0 !important;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -431,11 +296,20 @@ body #CurrentTime{
 }
 
 .logo img{
-  width: 220px; /* bigger and stable */
+  width: 220px;
   height: auto;
 }
 
-/* Mobile: stack neatly */
+.logo small{
+  display: block;
+  font-size: clamp(14px, 1.8vw, 20px);
+  text-align: right;
+  white-space: nowrap;
+  opacity: 0.7;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* Mobile stacking */
 @media (max-width: 800px){
   #siteFooter{
     flex-direction: column;
@@ -443,7 +317,7 @@ body #CurrentTime{
   }
 
   .eventCard{
-    width: min(92vw, 900px) !important;
+    width: min(92vw, 900px);
   }
 
   .logo{
@@ -455,6 +329,6 @@ body #CurrentTime{
   }
 
   .page{
-    padding-bottom: 320px;
+    padding-bottom: var(--footer-pad-mobile);
   }
 }
