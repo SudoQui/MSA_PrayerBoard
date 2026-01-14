@@ -7,10 +7,21 @@
 
     <link rel="stylesheet" href="./resources/css/index.css" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Alatsi&display=swap" rel="stylesheet" />
-  </head>
+    <!-- in <head> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alatsi&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header style="display: flex; justify-content: space-between; align-items: flex-start;">
+
+        <div id="UCMSA_logo"><img src="/resources/images/MSA PNG.png"></div>
+
+        <di id="NextPrayer" class="NextPrayer"></di>
+
+    </header>
+
 
   <body>
     <div class="board">
@@ -72,28 +83,26 @@
         </div>
       </section>
 
-      <footer id="siteFooter" class="footer">
-        <div class="eventCard">
-          <div class="qr">
-            <img src="/resources/images/linktr.png" alt="QR Code" />
-          </div>
+        <footer id="siteFooter">
+            <div class="eventCard">
+                <div class="qr">
+                    <img src="/resources/images/linktr.png" alt="QR Code">
+                </div>
+                <div class="eventDetails">
+                    <h3>WHAT’S GOING ON AT MSA</h3>
+                    <strong>MSA LinkTree</strong>
+                    <p>Instagram</p>
+                    <p>Whatsapp</p>
+                    <p>Get your Membership</p>
+                </div>
+            </div>
+            <div class="logo">
+                    <img src="./resources/images/logo1.png" alt="SudoTech Logo">
+                    <small>Powered by SudoTech</small>
+            </div>
+        </footer>
 
-          <div class="eventDetails">
-            <div class="eventTitle">WHAT’S GOING ON AT MSA</div>
-            <div class="eventName">MSA LinkTree</div>
-            <div class="eventMeta">Instagram</div>
-            <div class="eventMeta">Whatsapp</div>
-            <div class="eventMeta">Get your Membership</div>
-          </div>
-        </div>
-
-        <div class="powered">
-          <img src="./resources/images/logo1.png" alt="SudoTech Logo" />
-          <small>Powered by SudoTech</small>
-        </div>
-      </footer>
-    </div>
-
-    <script src="/resources/JS/app.js"></script>
-  </body>
+        <script src="/resources/JS/app.js"></script>
+    </body>
+</body>
 </html>

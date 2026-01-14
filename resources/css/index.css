@@ -15,61 +15,16 @@
   font-display: swap;
 }
 
-:root {
-  --ink: #0b0f14;
-  --muted: rgba(20, 45, 70, 0.55);
-  --pill: rgba(124, 155, 180, 0.75);
-  --panel: rgba(80, 130, 170, 0.55);
-  --panel-strong: rgba(70, 120, 160, 0.65);
-  --glass: rgba(240, 248, 255, 0.35);
+
+body{
+    background-image: url(/resources/images/background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'TT Drugs', system-ui, sans-serif;
+
+
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: "TT Drugs", system-ui, sans-serif;
-  color: var(--ink);
-
-  /* Use your existing background image */
-  background-image: url(/resources/images/background.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-
-  display: grid;
-  place-items: center;
-}
-
-.board {
-  width: min(920px, 92vw);
-  height: min(1280px, 96vh);
-  position: relative;
-  padding: 24px 18px 18px;
-  display: flex;
-  flex-direction: column;
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.brand img {
-  width: 92px;
-  height: 92px;
-  object-fit: contain;
-  border-radius: 999px;
-}
 
 .NextPrayer {
   background: var(--pill);
