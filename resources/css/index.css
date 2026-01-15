@@ -21,8 +21,13 @@
   --S: 1.55;
 
   /* Footer spacing so it never covers content */
-  --footer-pad: 220px;
-  --footer-pad-mobile: 320px;
+  --footer-pad: 280px;
+  --footer-pad-mobile: 420px;
+
+  /* Prayer board tuning */
+  --board-width: min(1300px, 94vw);        /* makes the prayer block a little wider */
+  --board-row-gap: calc(22px * var(--S));  /* spreads rows further down (vertical spacing) */
+  --board-col-gap: calc(110px * var(--S)); /* spreads columns more on the x axis */
 }
 
 *{
@@ -94,7 +99,7 @@ body{
   flex: 1;
 }
 
-/* Big clock */
+/* Big clock (CENTERED: removed the left push) */
 #CurrentTime{
   color: black;
   font-family: "Red Rose", system-ui, sans-serif;
@@ -103,7 +108,9 @@ body{
   font-size: calc(252px * var(--S));
   letter-spacing: calc(50px * var(--S));
   margin: clamp(12px, 3vh, 28px) 0 0;
-  margin-left: calc(50px * var(--S));
+
+  /* This was skewing the page to the right before */
+  margin-left: 0;
 }
 
 /* Date row */
@@ -127,18 +134,22 @@ body{
   padding-bottom: calc(10px * var(--S));
 }
 
-/* Prayer board */
+/* Prayer board (CENTERED + WIDER + MORE VERTICAL SPREAD) */
 #PrayerBoard{
   display: grid;
   grid-auto-rows: auto;
 
   font-size: calc(3em * var(--S));
   padding: calc(20px * var(--S));
-  row-gap: calc(10px * var(--S));
+
+  /* keep your distance from the top the same */
   margin-top: calc(400px * var(--S));
 
-  /* Wider middle section (more x-axis spread) */
-  width: min(1200px, 92vw);
+  /* this spreads it DOWN (bigger gap between rows) */
+  row-gap: var(--board-row-gap);
+
+  /* make it a little wider and CENTER it */
+  width: var(--board-width);
   margin-left: auto;
   margin-right: auto;
 }
@@ -147,9 +158,11 @@ body{
 #PrayerBoard .prayer{
   display: grid;
 
-  /* More spread across x axis */
+  /* keeps the same general layout, but makes it feel more balanced */
   grid-template-columns: 1.8fr 1fr 1fr;
-  column-gap: calc(90px * var(--S));
+
+  /* spreads columns more on the x axis */
+  column-gap: var(--board-col-gap);
 
   align-items: center;
   font-family: "Alatsi", sans-serif;
@@ -163,9 +176,14 @@ body{
   text-align: center;
 }
 
-/* Optional: pull the prayer names slightly inward so it still looks balanced */
+/* Remove left padding that can visually push rows right */
 #PrayerBoard .prayer > div:first-child{
-  padding-left: calc(20px * var(--S));
+  padding-left: 0;
+}
+
+/* Optional: make prayer names line up nicely without pushing the whole row */
+#PrayerBoard .prayer > div:first-child{
+  text-align: left;
 }
 
 #PrayerBoard .adhan,
@@ -179,11 +197,11 @@ body{
   opacity: 0.75;
 
   font-family: "Red Rose", system-ui, sans-serif;
-  letter-spacing: 2px;
+  letter-spacing: 20px;
 }
 
 #PrayerBoard .header div{
-  font-size: 2.4em;
+  font-size: 1.4em;
   font-weight: 700;
 }
 
@@ -221,42 +239,45 @@ body{
   z-index: 50;
 }
 
-/* Event card bottom-left with stable size */
+/* Event card bottom-left (large) */
 .eventCard{
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: clamp(18px, 3vw, 34px);
 
-  background: linear-gradient(270deg, rgba(223, 241, 255, 0.9), rgba(119, 148, 182, 0.9) 95%);
-  border-radius: 34px;
-  padding: clamp(18px, 3vh, 36px) clamp(22px, 3.5vw, 48px);
+  gap: clamp(22px, 3.4vw, 44px);
 
-  width: min(900px, 70vw);
-  max-width: none;
+  background: linear-gradient(
+    270deg,
+    rgba(223, 241, 255, 0.92),
+    rgba(119, 148, 182, 0.92) 95%
+  );
+
+  border-radius: 40px;
+  padding: clamp(24px, 3.6vh, 46px) clamp(28px, 4.2vw, 64px);
+  width: min(1100px, 78vw);
 
   color: white;
   position: relative;
-
   margin: 0;
 }
 
-/* QR fixed, responsive friendly */
+/* QR bigger */
 .qr img{
-  width: 170px;
+  width: clamp(190px, 18vw, 310px);
   height: auto;
-  border-radius: 12px;
+  border-radius: 14px;
   flex: 0 0 auto;
 }
 
-/* Event details */
+/* Event details bigger */
 .eventDetails{
   flex: 1;
   min-width: 0;
-
   text-align: left;
-  font-size: clamp(18px, 2.4vw, 26px);
-  line-height: 1.2;
+
+  font-size: clamp(20px, 2.6vw, 34px);
+  line-height: 1.18;
 
   color: rgba(0, 0, 0, 0.85);
 }
@@ -264,25 +285,25 @@ body{
 .eventDetails h3{
   text-transform: uppercase;
   letter-spacing: 1px;
-  opacity: 0.9;
+  opacity: 0.92;
 
-  margin: 0 0 10px 0;
+  margin: 0 0 12px 0;
   color: white;
 
-  font-size: clamp(11px, 1.4vw, 14px);
+  font-size: clamp(12px, 1.6vw, 18px);
 }
 
 .eventDetails strong{
   display: block;
-  font-weight: 700;
+  font-weight: 800;
   color: rgba(0, 0, 0, 0.9);
 
-  margin: 0 0 8px 0;
-  font-size: clamp(20px, 2.8vw, 30px);
+  margin: 0 0 10px 0;
+  font-size: clamp(22px, 3.1vw, 42px);
 }
 
 .eventDetails p{
-  margin: 3px 0;
+  margin: 4px 0;
   color: rgba(0, 0, 0, 0.75);
 }
 
@@ -302,7 +323,7 @@ body{
 
 .logo small{
   display: block;
-  font-size: clamp(14px, 1.8vw, 20px);
+  font-size: clamp(16px, 1.8vw, 40px);
   text-align: right;
   white-space: nowrap;
   opacity: 0.7;
@@ -317,7 +338,7 @@ body{
   }
 
   .eventCard{
-    width: min(92vw, 900px);
+    width: min(94vw, 1100px);
   }
 
   .logo{
@@ -330,5 +351,11 @@ body{
 
   .page{
     padding-bottom: var(--footer-pad-mobile);
+  }
+
+  /* On mobile, reduce extreme spacing so it stays readable */
+  :root{
+    --board-col-gap: calc(60px * var(--S));
+    --board-row-gap: calc(16px * var(--S));
   }
 }
