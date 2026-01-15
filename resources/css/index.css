@@ -359,3 +359,26 @@ body{
     --board-row-gap: calc(16px * var(--S));
   }
 }
+
+/* Wider + more spaced down (override) */
+#PrayerBoard{
+  width: min(1500px, 96vw);                 /* wider overall */
+  row-gap: calc(34px * var(--S));           /* more space between rows */
+}
+
+#PrayerBoard .header,
+#PrayerBoard .prayer{
+  column-gap: calc(160px * var(--S));       /* spread columns wider */
+  grid-template-columns: 2.2fr 1fr 1fr;     /* push times further right */
+}
+
+/* Make each row taller (more "down") */
+#PrayerBoard .prayer{
+  padding-top: calc(42px * var(--S));
+  padding-bottom: calc(42px * var(--S));
+}
+
+/* Optional: make the selected/current pill feel wider too */
+#PrayerBoard .prayer.current{
+  width: 100%;
+}
