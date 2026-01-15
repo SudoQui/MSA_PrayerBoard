@@ -331,13 +331,13 @@ body{
 }
 
 .logo img{
-  width: 220px;
+  width: 320px;
   height: auto;
 }
 
 .logo small{
   display: block;
-  font-size: clamp(16px, 1.8vw, 40px);
+  font-size: clamp(80px, 1.8vw, 40px);
   text-align: right;
   white-space: nowrap;
   opacity: 0.7;
@@ -453,4 +453,62 @@ body{
 
 .eventDetails strong{
   font-size: clamp(32px, 3.6vw, 56px) !important;
+}
+
+/* =========================================================
+   CORNER POSITION KNOBS
+   Change these values to dodge your monitor frame.
+   ========================================================= */
+:root{
+  /* Top left logo (UCMSA) */
+  --tl-x: 62px;
+  --tl-y: 54px;
+
+  /* Top right time pill */
+  --tr-x: 52px;
+  --tr-y: 54px;
+
+  /* Bottom left event card */
+  --bl-x: 142px;
+  --bl-y: 108px;
+
+  /* Bottom right SudoTech logo */
+  --br-x: 82px;
+  --br-y: 184px;
+}
+
+/* Make sure the page has room for fixed corners */
+.page{
+  padding-top: 140px;     /* prevents overlap with top fixed items */
+  padding-bottom: 520px;  /* prevents overlap with footer items */
+}
+
+/* Lock the top bar items to corners */
+#UCMSA_logo{
+  position: fixed;
+  left: var(--tl-x);
+  top: var(--tl-y);
+  z-index: 200;
+}
+
+#NextPrayer{
+  position: fixed;
+  right: var(--tr-x);
+  top: var(--tr-y);
+  z-index: 200;
+}
+
+/* Lock the bottom items to corners */
+.eventCard{
+  position: fixed;
+  left: var(--bl-x);
+  bottom: var(--bl-y);
+  z-index: 200;
+}
+
+.logo{
+  position: fixed;
+  right: var(--br-x);
+  bottom: var(--br-y);
+  z-index: 200;
 }
