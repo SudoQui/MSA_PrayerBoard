@@ -21,13 +21,23 @@
   --S: 1.55;
 
   /* Footer spacing so it never covers content */
-  --footer-pad: 280px;
-  --footer-pad-mobile: 420px;
+  --footer-pad: 340px;
+  --footer-pad-mobile: 480px;
 
-  /* Prayer board tuning */
-  --board-width: min(1300px, 94vw);        /* makes the prayer block a little wider */
-  --board-row-gap: calc(22px * var(--S));  /* spreads rows further down (vertical spacing) */
-  --board-col-gap: calc(110px * var(--S)); /* spreads columns more on the x axis */
+  /* Layout tuning */
+  --content-drop: calc(150px * var(--S));      /* moves the BLUE region (time + date) lower */
+  --board-top: calc(1120px * var(--S));        /* moves the RED region (prayer board) lower */
+
+  /* Prayer board size and spread */
+  --board-width: min(1650px, 96vw);           /* makes RED region wider */
+  --board-row-gap: calc(106px * var(--S));     /* spreads RED region down */
+  --board-col-gap: calc(590px * var(--S));    /* spreads times wider left to right */
+
+  /* Purple sizing */
+  --logo-size: calc(390px * var(--S));        /* top left logo bigger */
+  --pill-font: calc(3.9rem * var(--S));       /* top right pill bigger */
+  --pill-pad-y: calc(24px * var(--S));
+  --pill-pad-x: calc(20px * var(--S));
 }
 
 *{
@@ -71,13 +81,13 @@ body{
   gap: 12px;
 }
 
-/* Top left logo */
+/* PURPLE: Top left logo */
 #UCMSA_logo img{
-  width: calc(250px * var(--S));
+  width: var(--logo-size);
   height: auto;
 }
 
-/* Next prayer pill */
+/* PURPLE: Next prayer pill */
 .NextPrayer{
   background-color: rgba(137, 167, 194, 0.85);
   color: white;
@@ -88,32 +98,35 @@ body{
   font-weight: 600;
   letter-spacing: calc(2px * var(--S));
 
-  font-size: calc(2rem * var(--S));
-  padding: calc(20px * var(--S)) calc(16px * var(--S));
+  font-size: var(--pill-font);
+  padding: var(--pill-pad-y) var(--pill-pad-x);
   margin-top: calc(60px * var(--S));
   margin-right: calc(10px * var(--S));
 }
 
-/* Main content fills space above footer */
+/* Main content */
 .content{
   flex: 1;
+
+  /* BLUE: pushes time + date lower */
+  padding-top: var(--content-drop);
 }
 
-/* Big clock (CENTERED: removed the left push) */
+/* BLUE: Big clock */
 #CurrentTime{
   color: black;
   font-family: "Red Rose", system-ui, sans-serif;
   font-weight: 700;
 
-  font-size: calc(252px * var(--S));
-  letter-spacing: calc(50px * var(--S));
-  margin: clamp(12px, 3vh, 28px) 0 0;
+  /* bigger clock */
+  font-size: calc(490px * var(--S));
+  letter-spacing: calc(42px * var(--S));
 
-  /* This was skewing the page to the right before */
+  margin: clamp(12px, 3vh, 28px) 0 0;
   margin-left: 0;
 }
 
-/* Date row */
+/* BLUE: Date row (bigger) */
 .date{
   display: flex;
   justify-content: center;
@@ -122,53 +135,61 @@ body{
   font-family: "Alatsi", sans-serif;
   color: rgba(0, 0, 0, 0.7);
 
-  gap: calc(35px * var(--S));
-  font-size: calc(42.5px * var(--S));
-  margin-top: calc(-50px * var(--S));
+  gap: calc(38px * var(--S));
+  font-size: calc(50px * var(--S));
+
+  /* keeps it tucked under the time */
+  margin-top: calc(-42px * var(--S));
 }
 
 .date .dotpoint{
   color: #204768;
   margin: 0;
-  font-size: calc(50.5px * var(--S));
-  padding-bottom: calc(10px * var(--S));
+  font-size: calc(58px * var(--S));
+  padding-bottom: calc(8px * var(--S));
 }
 
-/* Prayer board (CENTERED + WIDER + MORE VERTICAL SPREAD) */
+/* RED: Prayer board (lower, larger, wider, more down) */
+/* RED: Prayer board (hard centered, stable) */
 #PrayerBoard{
   display: grid;
   grid-auto-rows: auto;
 
-  font-size: calc(3em * var(--S));
-  padding: calc(20px * var(--S));
+  font-size: calc(4.7em * var(--S));
+  padding: calc(1254px * var(--S));
 
-  /* keep your distance from the top the same */
-  margin-top: calc(400px * var(--S));
-
-  /* this spreads it DOWN (bigger gap between rows) */
+  margin-top: var(--board-top);
   row-gap: var(--board-row-gap);
 
-  /* make it a little wider and CENTER it */
+  /* IMPORTANT: only one width, and hard center */
   width: var(--board-width);
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;                /* centers the whole board */
+  justify-items: stretch;        /* rows fill full width */
+  justify-content: center;       /* grid stays centered */
 }
 
+
+/* RED: Header and each row */
 #PrayerBoard .header,
 #PrayerBoard .prayer{
   display: grid;
 
-  /* keeps the same general layout, but makes it feel more balanced */
-  grid-template-columns: 1.8fr 1fr 1fr;
+  /* more width across columns */
+  grid-template-columns: 2.4fr 1fr 1fr;
 
-  /* spreads columns more on the x axis */
+  /* spreads Adhan and Iqamah apart */
   column-gap: var(--board-col-gap);
 
   align-items: center;
-  font-family: "Alatsi", sans-serif;
+  width: 100%;
 }
 
-/* Center the Adhan and Iqamah columns */
+/* Keep name left, times centered */
+#PrayerBoard .header > div:nth-child(1),
+#PrayerBoard .prayer > div:nth-child(1){
+  text-align: left;
+}
+
 #PrayerBoard .header > div:nth-child(2),
 #PrayerBoard .header > div:nth-child(3),
 #PrayerBoard .prayer > div:nth-child(2),
@@ -176,46 +197,41 @@ body{
   text-align: center;
 }
 
-/* Remove left padding that can visually push rows right */
-#PrayerBoard .prayer > div:first-child{
-  padding-left: 0;
+/* Header styling */
+#PrayerBoard .header{
+  text-transform: uppercase;
+  opacity: 0.78;
+  font-family: "Red Rose", system-ui, sans-serif;
+
+  /* slightly cleaner spacing so it looks centered */
+  letter-spacing: calc(10px * var(--S));
 }
 
-/* Optional: make prayer names line up nicely without pushing the whole row */
-#PrayerBoard .prayer > div:first-child{
-  text-align: left;
+#PrayerBoard .header div{
+  font-size: 1.15em;
+  font-weight: 800;
+}
+
+/* Row styling (taller so it spreads DOWN) */
+#PrayerBoard .prayer{
+  border-radius: 999px;
+  font-family: "TT Drugs", sans-serif;
+
+  /* taller rows */
+  padding: calc(46px * var(--S)) calc(18px * var(--S));
+
+  transition: background-color 0.25s, opacity 0.25s;
 }
 
 #PrayerBoard .adhan,
 #PrayerBoard .Iqamah{
   font-family: "Red Rose", system-ui, sans-serif;
-  font-weight: 600;
-}
-
-#PrayerBoard .header{
-  text-transform: uppercase;
-  opacity: 0.75;
-
-  font-family: "Red Rose", system-ui, sans-serif;
-  letter-spacing: 20px;
-}
-
-#PrayerBoard .header div{
-  font-size: 1.4em;
-  font-weight: 700;
-}
-
-#PrayerBoard .prayer{
-  border-radius: 999px;
-  font-family: "TT Drugs", sans-serif;
-
-  padding: calc(28px * var(--S)) calc(14px * var(--S));
-  transition: background-color 0.25s, opacity 0.25s;
+  font-weight: 650;
 }
 
 #PrayerBoard .prayer.current{
   background: rgba(255, 255, 255, 0.35);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 #PrayerBoard .prayer.past{
@@ -262,7 +278,6 @@ body{
   margin: 0;
 }
 
-/* QR bigger */
 .qr img{
   width: clamp(190px, 18vw, 310px);
   height: auto;
@@ -270,7 +285,6 @@ body{
   flex: 0 0 auto;
 }
 
-/* Event details bigger */
 .eventDetails{
   flex: 1;
   min-width: 0;
@@ -353,32 +367,90 @@ body{
     padding-bottom: var(--footer-pad-mobile);
   }
 
-  /* On mobile, reduce extreme spacing so it stays readable */
   :root{
-    --board-col-gap: calc(60px * var(--S));
-    --board-row-gap: calc(16px * var(--S));
+    --board-width: min(1100px, 94vw);
+    --board-col-gap: calc(70px * var(--S));
+    --board-row-gap: calc(22px * var(--S));
+    --board-top: calc(460px * var(--S));
+    --content-drop: calc(35px * var(--S));
   }
 }
 
-/* Wider + more spaced down (override) */
-#PrayerBoard{
-  width: min(1500px, 96vw);                 /* wider overall */
-  row-gap: calc(34px * var(--S));           /* more space between rows */
+/* Make header labels align perfectly with the time columns */
+#PrayerBoard .header{
+  display: grid;
+  grid-template-columns: 2.4fr 1fr 1fr;  /* must match .prayer */
+  column-gap: var(--board-col-gap);
+  align-items: center;
 }
 
-#PrayerBoard .header,
-#PrayerBoard .prayer{
-  column-gap: calc(160px * var(--S));       /* spread columns wider */
-  grid-template-columns: 2.2fr 1fr 1fr;     /* push times further right */
+/* Force Adhan into column 2 and Iqamah into column 3 */
+#PrayerBoard .header > div:nth-child(2){
+  grid-column: 2;
+  text-align: center;
 }
 
-/* Make each row taller (more "down") */
-#PrayerBoard .prayer{
-  padding-top: calc(42px * var(--S));
-  padding-bottom: calc(42px * var(--S));
+#PrayerBoard .header > div:nth-child(3){
+  grid-column: 3;
+  text-align: center;
 }
 
-/* Optional: make the selected/current pill feel wider too */
-#PrayerBoard .prayer.current{
-  width: 100%;
+/* Keep prayer names left, times centered (matches rows) */
+#PrayerBoard .prayer > div:first-child{ text-align: left; }
+#PrayerBoard .prayer > div:nth-child(2),
+#PrayerBoard .prayer > div:nth-child(3){ text-align: center; }
+
+/* Optional: too much letter spacing can make them look "uneven" */
+#PrayerBoard .header{
+  letter-spacing: calc(6px * var(--S));
+}
+
+/* Header labels: sit directly above the time columns */
+#PrayerBoard .header{
+  column-gap: 0 !important;                 /* kill the huge gap ONLY for header */
+  grid-template-columns: 2.4fr 5fr 1fr;     /* keep same columns */
+}
+
+/* Put "ADHAN" in exact column 2 and "IQAMAH" in exact column 3 */
+#PrayerBoard .header > div:nth-child(2){
+  grid-column: 2 !important;
+  justify-self: center;
+  text-align: center;
+}
+
+#PrayerBoard .header > div:nth-child(3){
+  grid-column: 3 !important;
+  justify-self: center;
+  text-align: center;
+}
+
+/* Keep the blank first cell truly blank and not affecting layout */
+#PrayerBoard .header > div:first-child{
+  grid-column: 1 !important;
+}
+
+/* Bigger event card */
+.eventCard{
+  width: min(1500px, 92vw) !important;     /* wider */
+  padding: clamp(34px, 4.6vh, 64px) clamp(40px, 5.4vw, 90px) !important;  /* more padding */
+  border-radius: 54px !important;          /* rounder */
+  gap: clamp(30px, 4vw, 70px) !important;  /* more space between QR and text */
+}
+
+/* Bigger QR */
+.qr img{
+  width: clamp(260px, 20vw, 420px) !important;
+}
+
+/* Bigger text inside the card */
+.eventDetails{
+  font-size: clamp(58px, 3vw, 46px) !important;
+}
+
+.eventDetails h3{
+  font-size: clamp(70px, 2vw, 26px) !important;
+}
+
+.eventDetails strong{
+  font-size: clamp(32px, 3.6vw, 56px) !important;
 }
