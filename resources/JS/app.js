@@ -48,6 +48,16 @@
     return hour * 60 + minute;
   }
 
+  function format12Hour(value) {
+    if (!/^\d{1,2}:\d{2}$/.test(cleanTime(value))) return "--:--";
+    const totalMinutes = toMinutes(value);
+    const hour24 = Math.floor(totalMinutes / 60) % 24;
+    const minute = totalMinutes % 60;
+    const suffix = hour24 >= 12 ? "PM" : "AM";
+    const hour12 = hour24 % 12 || 12;
+    return `${hour12}:${pad2(minute)} ${suffix}`;
+  }
+
   function addMinutes(value, minutes) {
     const total = (toMinutes(value) + minutes + 1440) % 1440;
     return `${pad2(Math.floor(total / 60))}:${pad2(total % 60)}`;
@@ -117,8 +127,8 @@
 
     ORDER.forEach(name => {
       const adhan = schedule.timings[name];
-      document.getElementById(`${name}Adhan`).textContent = adhan;
-      document.getElementById(`${name}Iqamah`).textContent = resolveIqamah(name, adhan);
+      document.getElementById(`${name}Adhan`).textContent = format12Hour(adhan);
+      document.getElementById(`${name}Iqamah`).textContent = format12Hour(resolveIqamah(name, adhan));
     });
   }
 
@@ -131,18 +141,24 @@
 
     const currentMinutes = nowMinutes();
     const prayerMinutes = ORDER.map(name => toMinutes(schedule.timings[name]));
-    let currentIndex = -1;
+    let latestPrayerIndex = -1;
     prayerMinutes.forEach((value, index) => {
-      if (currentMinutes >= value) currentIndex = index;
+      if (currentMinutes >= value) latestPrayerIndex = index;
     });
+
+    let highlightedIndex = latestPrayerIndex;
+    if (latestPrayerIndex === 0) {
+      const fajrHighlightEnd = prayerMinutes[0] + Number(CONFIG.fajrHighlightMinutes || 120);
+      if (currentMinutes >= fajrHighlightEnd) highlightedIndex = -1;
+    }
 
     ORDER.forEach((name, index) => {
       const row = document.getElementById(name);
-      row.classList.toggle("past", index < currentIndex);
-      row.classList.toggle("current", index === currentIndex);
+      row.classList.toggle("past", index < latestPrayerIndex);
+      row.classList.toggle("current", index === highlightedIndex);
     });
 
-    const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % ORDER.length;
+    const nextIndex = latestPrayerIndex < 0 ? 0 : (latestPrayerIndex + 1) % ORDER.length;
     let remaining = prayerMinutes[nextIndex] - currentMinutes;
     if (remaining <= 0) remaining += 1440;
     const hours = Math.floor(remaining / 60);
