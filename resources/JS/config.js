@@ -6,6 +6,7 @@ window.PRAYERBOARD_CONFIG = Object.freeze({
   school: 0,
   apiRefreshHours: 6,
   staleWarningHours: 30,
+  fajrHighlightMinutes: 120,
   iqamah: Object.freeze({
     Fajr: Object.freeze({ mode: "offset", minutes: 15 }),
     Dhuhr: Object.freeze({ mode: "offset", minutes: 15 }),
