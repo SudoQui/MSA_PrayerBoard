@@ -1,141 +1,195 @@
-// ---------- Config ----------
-const ADDRESS = "11 Kirinari St, Bruce ACT 2617";
-const TZ = "Australia/Sydney";
-const METHOD = 3; 
+(() => {
+  "use strict";
 
-// ---------- Helpers ----------
-const pad2 = n => String(n).padStart(2, "0");
-const toMin = t => {
-  const s = t.trim().toUpperCase();
-  const am = s.endsWith("AM"), pm = s.endsWith("PM");
-  let [h, m] = s.replace(/AM|PM/,"").trim().split(":").map(Number);
-  if (pm && h !== 12) h += 12;
-  if (am && h === 12) h = 0;
-  return h*60 + m;
-};
-const fmt24 = (hhmm) => {
-  let [h, m] = hhmm.split(":").map(Number);
-  return `${pad2(h)}:${pad2(m)}`;
-};
+  const CONFIG = window.PRAYERBOARD_CONFIG;
+  const ORDER = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+  const CACHE_KEY = "msaPrayerBoard.schedule.v2";
+  const LAST_FETCH_KEY = "msaPrayerBoard.lastFetch.v2";
 
-const addMinutes = (hhmm, mins) => {
-  let [h,m] = hhmm.split(":").map(Number);
-  let total = h*60 + m + mins;
-  total = (total + 1440) % 1440;
-  return `${pad2(Math.floor(total/60))}:${pad2(total%60)}`;
-};
-const nowMinutesTZ = (tz) => {
-  const [hh, mm] = new Intl.DateTimeFormat("en-GB", {
-    timeZone: tz, hour: "2-digit", minute: "2-digit", hour12: false
-  }).format(new Date()).split(":").map(Number);
-  return hh*60 + mm;
-};
+  let schedule = null;
+  let activeDateKey = null;
 
-// ---------- Core render ----------
-async function refreshBoard() {
-  // recompute date each run
-  const d = new Date();
-  const dd = pad2(d.getDate());
-  const mm = pad2(d.getMonth() + 1);
-  const yyyy = d.getFullYear();
-  const monthName = d.toLocaleString('default', { month: 'long' });
+  const pad2 = value => String(value).padStart(2, "0");
 
-  const url =
-    `https://api.aladhan.com/v1/timingsByAddress/${dd}-${mm}-${yyyy}` +
-    `?address=${encodeURIComponent(ADDRESS)}` +
-    `&timezonestring=${encodeURIComponent(TZ)}` +
-    `&method=${METHOD}`;
-
-  let data;
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    data = await res.json();
-  } catch (e) {
-    console.error("Fetch error:", e);
-    return;
+  function zonedParts(date = new Date()) {
+    const parts = new Intl.DateTimeFormat("en-CA", {
+      timeZone: CONFIG.timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false
+    }).formatToParts(date);
+    return Object.fromEntries(parts.map(part => [part.type, part.value]));
   }
 
-  const t = data.data.timings;
-  const hijri = data.data.date.hijri;
-  const prayers = {
-    Fajr:    t.Fajr,
-    Dhuhr:   t.Dhuhr,
-    Asr:     t.Asr,
-    Maghrib: t.Maghrib,
-    Isha:    t.Isha
-  };
-  const order = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
+  function dateKey(date = new Date()) {
+    const p = zonedParts(date);
+    return `${p.year}-${p.month}-${p.day}`;
+  }
 
-  // iqamah = adhan + 15 min (adjust as you like)
-  const iqamah = {
-    Fajr:    addMinutes(prayers.Fajr, 15),
-    Dhuhr:   addMinutes(prayers.Dhuhr, 15),
-    Asr:     addMinutes(prayers.Asr, 15),
-    Maghrib: addMinutes(prayers.Maghrib, 15),
-    Isha:    addMinutes(prayers.Isha, 15),
-  };
+  function apiDate(date = new Date()) {
+    const p = zonedParts(date);
+    return `${p.day}-${p.month}-${p.year}`;
+  }
 
-  // DOM fill: dates and clock
-  document.getElementById("gregDate").textContent   = `${d.getDate()} ${monthName}`;
-  document.getElementById("islamicDate").textContent = `${hijri.day} ${hijri.month.en}`;
-  function format12NoAmPm(date, tz = "Australia/Sydney") {
-    // Get hours/minutes in 24h first
-    const [hh, mm] = new Intl.DateTimeFormat("en-GB", {
-        timeZone: tz,
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
-    }).format(date).split(":").map(Number);
+  function nowMinutes() {
+    const p = zonedParts();
+    return Number(p.hour) * 60 + Number(p.minute);
+  }
 
-    // Convert to 12h without AM/PM
-    let h = hh % 12;
-    if (h === 0) h = 12; // midnight/noon edge cases
+  function cleanTime(value) {
+    return String(value || "").match(/\d{1,2}:\d{2}/)?.[0] || "--:--";
+  }
 
-    return `${h}:${mm.toString().padStart(2, "0")}`;
-};
+  function toMinutes(value) {
+    const [hour, minute] = cleanTime(value).split(":").map(Number);
+    return hour * 60 + minute;
+  }
 
-    document.getElementById("CurrentTime").textContent = format12NoAmPm(new Date());
+  function addMinutes(value, minutes) {
+    const total = (toMinutes(value) + minutes + 1440) % 1440;
+    return `${pad2(Math.floor(total / 60))}:${pad2(total % 60)}`;
+  }
 
+  function resolveIqamah(name, adhan) {
+    const rule = CONFIG.iqamah[name];
+    if (!rule) return adhan;
+    if (rule.mode === "fixed" && /^\d{1,2}:\d{2}$/.test(rule.time || "")) return rule.time;
+    return addMinutes(adhan, Number(rule.minutes || 0));
+  }
 
-  // DOM fill: adhan/iqamah per prayer
-  document.getElementById("FajrAdhan").textContent     = fmt24(prayers.Fajr);
-  document.getElementById("FajrIqamah").textContent    = fmt24(iqamah.Fajr);
-  document.getElementById("DhuhrAdhan").textContent    = fmt24(prayers.Dhuhr);
-  document.getElementById("DhuhrIqamah").textContent   = fmt24(iqamah.Dhuhr);
-  document.getElementById("AsrAdhan").textContent      = fmt24(prayers.Asr);
-  document.getElementById("AsrIqamah").textContent     = fmt24(iqamah.Asr);
-  document.getElementById("MaghribAdhan").textContent  = fmt24(prayers.Maghrib);
-  document.getElementById("MaghribIqamah").textContent = fmt24(iqamah.Maghrib);
-  document.getElementById("IshaAdhan").textContent     = fmt24(prayers.Isha);
-  document.getElementById("IshaIqamah").textContent    = fmt24(iqamah.Isha);
+  function cacheRead() {
+    try {
+      return JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+    } catch {
+      return null;
+    }
+  }
 
-  // current / next logic
-  const nowMin = nowMinutesTZ(TZ);
-  const adhanMins = order.map(n => toMin(prayers[n]));
-  let idxCurrent = -1;
-  adhanMins.forEach((m, i) => { if (nowMin >= m) idxCurrent = i; });
+  function cacheWrite(value) {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(value));
+    localStorage.setItem(LAST_FETCH_KEY, String(Date.now()));
+  }
 
-  // tag rows
-  order.forEach((name, i) => {
-    const row = document.getElementById(name); // <div id="Fajr"> etc
-    if (!row) return;
-    row.classList.remove("current","past");
-    if (i < idxCurrent) row.classList.add("past");
-    if (i === idxCurrent) row.classList.add("current");
-  });
+  function shouldFetch() {
+    const lastFetch = Number(localStorage.getItem(LAST_FETCH_KEY) || 0);
+    return !lastFetch || Date.now() - lastFetch >= CONFIG.apiRefreshHours * 3600000;
+  }
 
-  // compute next prayer and countdown (wrap after Isha to next day Fajr)
-  const nextIdx = idxCurrent < 0 ? 0 : (idxCurrent + 1) % order.length;
-  let nextTime = toMin(prayers[order[nextIdx]]);
-  let delta = nextTime - nowMin;
-  if (delta <= 0) delta += 1440; // wrap to next day
+  async function fetchSchedule() {
+    const url = new URL(`https://api.aladhan.com/v1/timingsByAddress/${apiDate()}`);
+    url.searchParams.set("address", CONFIG.address);
+    url.searchParams.set("timezonestring", CONFIG.timezone);
+    url.searchParams.set("method", String(CONFIG.calculationMethod));
+    url.searchParams.set("school", String(CONFIG.school));
 
-  const hLeft = Math.floor(delta / 60);
-  const mLeft = delta % 60;
-  document.getElementById("NextPrayer").textContent =
-    `${hLeft} hrs ${mLeft} mins till ${order[nextIdx]}`;
-}
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Prayer API returned ${response.status}`);
+    const payload = await response.json();
+    if (payload.code !== 200 || !payload.data?.timings) throw new Error("Prayer API response was invalid");
 
-// run now, then every 20s
-refreshBoard();
-setInterval(refreshBoard, 20000);
+    const timings = Object.fromEntries(ORDER.map(name => [name, cleanTime(payload.data.timings[name])]));
+    return {
+      dateKey: dateKey(),
+      fetchedAt: Date.now(),
+      hijri: `${payload.data.date.hijri.day} ${payload.data.date.hijri.month.en}`,
+      timings
+    };
+  }
+
+  function setStatus(message, warning = false) {
+    const element = document.getElementById("boardStatus");
+    element.textContent = message;
+    element.classList.toggle("warning", warning);
+  }
+
+  function renderStatic() {
+    if (!schedule) return;
+    const today = new Intl.DateTimeFormat("en-AU", {
+      timeZone: CONFIG.timezone,
+      day: "numeric",
+      month: "long"
+    }).format(new Date());
+    document.getElementById("gregDate").textContent = today;
+    document.getElementById("islamicDate").textContent = schedule.hijri || "";
+
+    ORDER.forEach(name => {
+      const adhan = schedule.timings[name];
+      document.getElementById(`${name}Adhan`).textContent = adhan;
+      document.getElementById(`${name}Iqamah`).textContent = resolveIqamah(name, adhan);
+    });
+  }
+
+  function renderClockAndPrayerState() {
+    const p = zonedParts();
+    let hour = Number(p.hour) % 12;
+    if (hour === 0) hour = 12;
+    document.getElementById("CurrentTime").textContent = `${hour}:${p.minute}`;
+    if (!schedule) return;
+
+    const currentMinutes = nowMinutes();
+    const prayerMinutes = ORDER.map(name => toMinutes(schedule.timings[name]));
+    let currentIndex = -1;
+    prayerMinutes.forEach((value, index) => {
+      if (currentMinutes >= value) currentIndex = index;
+    });
+
+    ORDER.forEach((name, index) => {
+      const row = document.getElementById(name);
+      row.classList.toggle("past", index < currentIndex);
+      row.classList.toggle("current", index === currentIndex);
+    });
+
+    const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % ORDER.length;
+    let remaining = prayerMinutes[nextIndex] - currentMinutes;
+    if (remaining <= 0) remaining += 1440;
+    const hours = Math.floor(remaining / 60);
+    const minutes = remaining % 60;
+    const hourText = hours ? `${hours} hr${hours === 1 ? "" : "s"} ` : "";
+    document.getElementById("NextPrayer").textContent = `${hourText}${minutes} mins till ${ORDER[nextIndex]}`;
+  }
+
+  async function loadSchedule(force = false) {
+    const cached = cacheRead();
+    if (cached?.dateKey === dateKey()) {
+      schedule = cached;
+      activeDateKey = cached.dateKey;
+      renderStatic();
+      const ageHours = (Date.now() - Number(cached.fetchedAt || 0)) / 3600000;
+      setStatus(ageHours > CONFIG.staleWarningHours ? "Using an older cached prayer schedule" : "", ageHours > CONFIG.staleWarningHours);
+    }
+
+    if (!force && cached?.dateKey === dateKey() && !shouldFetch()) return;
+
+    try {
+      const fresh = await fetchSchedule();
+      schedule = fresh;
+      activeDateKey = fresh.dateKey;
+      cacheWrite(fresh);
+      renderStatic();
+      setStatus("");
+    } catch (error) {
+      console.error(error);
+      if (schedule) setStatus("Offline · showing cached prayer schedule", true);
+      else setStatus("Unable to load prayer schedule · check internet connection", true);
+    }
+  }
+
+  async function tick() {
+    renderClockAndPrayerState();
+    const today = dateKey();
+    if (activeDateKey && activeDateKey !== today) await loadSchedule(true);
+  }
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(console.error));
+  }
+
+  loadSchedule();
+  tick();
+  setInterval(tick, 1000);
+  setInterval(() => loadSchedule(), 15 * 60 * 1000);
+  window.addEventListener("online", () => loadSchedule(true));
+})();
