@@ -1,0 +1,37 @@
+html,
+body,
+body * {
+  cursor: none !important;
+}
+
+.boardStatus {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  min-height: 1.5em;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font: 600 18px/1.2 system-ui, sans-serif;
+  color: rgba(0, 0, 0, 0.72);
+  background: rgba(255, 255, 255, 0.72);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 500;
+}
+
+.boardStatus:not(:empty) {
+  opacity: 1;
+}
+
+.boardStatus.warning {
+  color: #6b2500;
+  background: rgba(255, 232, 204, 0.94);
+}
+
+@media (orientation: portrait) {
+  html,
+  body {
+    overflow: hidden;
+  }
+}
